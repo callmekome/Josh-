@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VIP ODDS - Betting & Predictions</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <style>
+        /* Base & Layout */
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Arial', sans-serif; }
+        body { background-color: #0d1117; color: #ffffff; display: flex; justify-content: center; }
+        .container { width: 100%; max-width: 450px; background-color: #0d1117; min-height: 100vh; border-left: 1px solid #1f2937; border-right: 1px solid #1f2937; position: relative; }
+
+        /* Navigation */
+        nav { padding: 20px; text-align: center; border-bottom: 1px solid #1f2937; }
+        .logo-box { background: linear-gradient(135deg, #4ade80, #facc15); width: 45px; height: 45px; margin: 0 auto 10px; border-radius: 8px; display: flex; align-items: center; justify-content: center; }
+        .nav-links { display: flex; justify-content: center; gap: 25px; font-size: 14px; font-weight: 600; text-transform: uppercase; }
+        .nav-links a { text-decoration: none; color: #9ca3af; }
+        .vip-banner { background-color: #f97316; color: white; text-align: center; padding: 8px; font-weight: bold; font-size: 13px; text-transform: uppercase; }
+
+        /* Hero */
+        .hero { background: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)), url('https://images.unsplash.com/photo-1574629810360-7efbbe195018?q=80'); background-size: cover; padding: 40px 20px; text-align: center; }
+        .hero h1 span { color: #facc15; }
+        .btn { display: flex; align-items: center; justify-content: center; padding: 15px; border-radius: 50px; text-decoration: none; font-weight: bold; margin-bottom: 15px; cursor: pointer; border: none; width: 100%; }
+        .btn-whatsapp { background-color: #25D366; color: white; }
+        .btn-vip { background: linear-gradient(90deg, #22c55e 0%, #eab308 50%, #ef4444 100%); color: white; }
+
+        /* Tips Section */
+        .tips-section { background-color: #f8fafc; color: #1e293b; padding: 30px 20px; text-align: center; }
+        .tabs { display: flex; justify-content: center; gap: 10px; margin-bottom: 20px; }
+        .tab { padding: 8px 15px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 13px; background: white; cursor: pointer; }
+        .tab.active { background-color: #1e293b; color: white; border-color: #1e293b; }
+
+        /* Loading Animation State */
+        .loading-box { padding: 40px 20px; background: white; color: #94a3b8; border: 1px solid #e2e8f0; border-radius: 8px; margin-bottom: 15px; }
+        .loading-box i { font-size: 40px; margin-bottom: 15px; display: block; }
+
+        /* Modal Styles */
+        #vipModal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 1000; align-items: center; justify-content: center; }
+        .modal-content { background: #ffffff; width: 90%; max-width: 350px; border-radius: 15px; padding: 25px; text-align: center; color: #1e293b; }
+        .odds-option { background: #f8fafc; padding: 15px; border: 1px solid #e2e8f0; border-radius: 12px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
+        .odds-label { display: flex; flex-direction: column; text-align: left; }
+        .odds-title { font-weight: 900; font-size: 16px; color: #1e293b; }
+        .odds-price { font-weight: bold; font-size: 14px; color: #22c55e; }
+
+        /* Table & Card */
+        .tips-table { width: 100%; border-collapse: collapse; background: white; font-size: 11px; text-align: left; border: 1px solid #e2e8f0; margin-bottom: 15px; border-radius: 8px; overflow: hidden; }
+        .tips-table th { background: #f1f5f9; padding: 12px 10px; color: #64748b; font-weight: bold; }
+        .tips-table td { padding: 12px 10px; border-bottom: 1px solid #f1f5f9; color: #1e293b; }
+        .sporty-card { background: white; border-radius: 12px; padding: 20px; margin-bottom: 20px; border: 1px solid #e2e8f0; }
+        .copy-btn { background-color: #22c55e; color: white; border: none; width: 100%; padding: 12px; border-radius: 8px; font-weight: bold; margin-top: 10px; cursor: pointer; }
+
+        /* Footer */
+        .site-footer { padding: 40px 20px; background-color: #0f172a; border-top: 1px solid #1e293b; }
+        .site-footer h3 { font-size: 18px; margin-bottom: 10px; font-weight: 700; color: #ffffff; text-align: left; }
+        .about-text { font-size: 13px; color: #94a3b8; line-height: 1.6; margin-bottom: 15px; text-align: left; }
+        .trusted-badge { display: inline-flex; align-items: center; background-color: #059669; color: white; padding: 5px 12px; border-radius: 50px; font-size: 11px; font-weight: 800; text-transform: uppercase; margin-bottom: 30px; }
+        .footer-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; border-top: 1px solid #1e293b; padding-top: 25px; }
+        .footer-column h4 { font-size: 16px; margin-bottom: 15px; font-weight: 700; color: #ffffff; }
+        .footer-column ul { list-style: none; font-size: 13px; color: #94a3b8; }
+        .footer-column ul li { margin-bottom: 10px; }
+        .whatsapp-link { color: #4ade80; text-decoration: none; font-weight: bold; }
+        .join-community { display: flex; align-items: center; color: #4ade80; font-weight: 700; font-size: 13px; margin-top: 10px; text-decoration: none; }
+        .copyright-area { text-align: center; margin-top: 40px; padding-top: 20px; font-size: 11px; color: #64748b; }
+        .legal-links { display: flex; justify-content: center; gap: 10px; margin-top: 8px; color: #94a3b8; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div id="vipModal">
+            <div class="modal-content">
+                <h2 style="font-weight:900; margin-bottom:10px;">VIP PRICING</h2>
+                <div class="odds-option" onclick="sendToWhatsApp('10 ODDS', '2,000')">
+                    <div class="odds-label"><span class="odds-title">10 ODDS TICKET</span><span class="odds-price">₦2,000</span></div>
+                    <i class="fas fa-crown" style="color:#facc15"></i>
+                </div>
+                <div class="odds-option" onclick="sendToWhatsApp('20 ODDS', '3,000')">
+                    <div class="odds-label"><span class="odds-title">20 ODDS TICKET</span><span class="odds-price">₦3,000</span></div>
+                    <i class="fas fa-crown" style="color:#facc15"></i>
+                </div>
+                <div class="odds-option" onclick="sendToWhatsApp('50 ODDS', '5,000')">
+                    <div class="odds-label"><span class="odds-title">50 ODDS TICKET</span><span class="odds-price">₦5,000</span></div>
+                    <i class="fas fa-crown" style="color:#facc15"></i>
+                </div>
+                <span onclick="closeModal()" style="color:#ef4444; cursor:pointer; font-weight:bold; font-size:14px;">Cancel</span>
+            </div>
+        </div>
+
+        <nav>
+            <div class="logo-box"><i class="fas fa-chart-line text-white"></i></div>
+            <div class="nav-links"><a href="#">Home</a><a href="#" style="color:#eab308; margin-left:20px;">About</a></div>
+        </nav>
+
+        <div class="vip-banner">VIP ACCESS</div>
+
+        <section class="hero">
+            <h1>HELLO I'M <span style="color:#facc15">VIP ODDS</span></h1>
+            <p style="font-weight:700; margin-bottom:20px;">YOUR ULTIMATE BETTING PARTNER</p>
+            <a href="https://chat.whatsapp.com/L3JJ3o6tQazI7SOJ6Pisoo" target="_blank" class="btn btn-whatsapp"><i class="fab fa-whatsapp" style="margin-right:10px"></i> Join WhatsApp Group</a>
+            <button class="btn btn-vip" onclick="openModal()"><i class="fas fa-crown" style="margin-right:10px"></i> GET VIP ODDS</button>
+        </section>
+
+        <section class="tips-section">
+            <h2 style="margin-bottom:15px; font-weight:900;">FREE BETTING TIPS</h2>
+            <div class="tabs">
+                <button class="tab" id="btn-yesterday" onclick="updateUI('yesterday')">Yesterday</button>
+                <button class="tab active" id="btn-today" onclick="updateUI('today')">Today</button>
+                <button class="tab" id="btn-tomorrow" onclick="updateUI('tomorrow')">Tomorrow</button>
+            </div>
+
+            <div id="table-container"></div>
+
+            <div class="sporty-card">
+                <span style="font-weight:bold; color:#1e293b">Sporty Code:</span> 
+                <span id="code-text" style="color:#22c55e; font-weight:900; font-size:20px;">AN84BE</span>
+                <button class="copy-btn" onclick="copyCode()">Copy Code</button>
+            </div>
+        </section>
+
+        <footer class="site-footer">
+            <h3>About VIP ODDS</h3>
+            <p class="about-text">Trusted by bettors in Ghana and Nigeria, VIP ODDS is your ultimate partner for expert football tips. Join our winning community today.</p>
+            <div class="trusted-badge"><i class="fas fa-check-circle" style="margin-right:5px;"></i> TRUSTED BY BETTORS</div>
+
+            <div class="footer-grid">
+                <div class="footer-column">
+                    <h4>Quick Links</h4>
+                    <ul><li>Home</li><li>Free Tips</li><li>Contact Us</li></ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Contact</h4>
+                    <p>WhatsApp: <a href="https://chat.whatsapp.com/L3JJ3o6tQazI7SOJ6Pisoo" target="_blank" class="whatsapp-link">Join Group</a></p>
+                    <p>Nigeria & Ghana</p>
+                    <a href="https://chat.whatsapp.com/L3JJ3o6tQazI7SOJ6Pisoo" target="_blank" class="join-community"><i class="fab fa-whatsapp" style="margin-right:5px;"></i> Join Our Community</a>
+                </div>
+            </div>
+
+            <div class="copyright-area">
+                <p>© 2026 VIP ODDS. All Rights Reserved.</p>
+                <div class="legal-links"><span>Terms & Conditions</span><span>Privacy Policy</span><span>Disclaimer</span></div>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        const appData = {
+            today: { code: "AN84BE", games: [
+                { teams: "Fiorentina vs Crystal Palace", pred: "Draw or Away", res: "-" },
+                { teams: "Betis vs Braga", pred: "Home or Away", res: "-" }
+            ]},
+            yesterday: { code: "EXPIRED", games: [] },
+            tomorrow: { code: "WAITING", games: [] }
+        };
+
+        function openModal() { document.getElementById('vipModal').style.display = 'flex'; }
+        function closeModal() { document.getElementById('vipModal').style.display = 'none'; }
+
+        function sendToWhatsApp(odds, price) {
+            const msg = encodeURIComponent(`Hello VIP ODDS, I want to purchase the ${odds} ticket for ₦${price}.`);
+            window.open(`https://wa.me/2349137389192?text=${msg}`, '_blank');
+            closeModal();
+        }
+
+        function updateUI(day) {
+            // Update Tab Active State
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.getElementById('btn-' + day).classList.add('active');
+
+            const container = document.getElementById('table-container');
+            const data = appData[day];
+            
+            // 1. SHOW THE SPINNING GEAR ANIMATION FIRST
+            container.innerHTML = `
+                <div class="loading-box">
+                    <i class="fas fa-cog fa-spin"></i>
+                    <p>Fetching predictions for ${day}...</p>
+                </div>`;
+
+            // 2. WAIT A SHORT MOMENT THEN SHOW THE ACTUAL CONTENT (Table or Empty)
+            setTimeout(() => {
+                document.getElementById('code-text').innerText = data.code;
+                
+                if(data.games.length === 0) {
+                    container.innerHTML = `
+                        <div class="loading-box">
+                            <i class="fas fa-cog text-gray-200"></i>
+                            <p style="font-weight:bold; color:#64748b;">No free tips available for ${day}.</p>
+                            <p style="font-size:11px; margin-top:5px;">Check back later or join WhatsApp for updates.</p>
+                        </div>`;
+                } else {
+                    let html = `<table class="tips-table"><thead><tr><th>Teams</th><th>Prediction</th><th>Result</th></tr></thead><tbody>`;
+                    data.games.forEach(g => { html += `<tr><td style="font-weight:bold">${g.teams}</td><td>${g.pred}</td><td>${g.res}</td></tr>`; });
+                    html += `</tbody></table>`;
+                    container.innerHTML = html;
+                }
+            }, 600); // 600ms makes the animation visible but fast
+        }
+
+        function copyCode() {
+            const code = document.getElementById('code-text').innerText;
+            navigator.clipboard.writeText(code).then(() => {
+                const btn = document.querySelector('.copy-btn');
+                btn.innerText = "Copied!";
+                setTimeout(() => btn.innerText = "Copy Code", 2000);
+            });
+        }
+
+        // Initialize with animation on first load
+        window.onload = () => updateUI('today');
+    </script>
+</body>
+</html>
