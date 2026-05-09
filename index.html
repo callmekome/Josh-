@@ -146,10 +146,32 @@
 
     <script>
         const appData = {
-            today: { code: "ZBUW11", 
-            yesterday: { code: "EXPIRED", games: [] },
-            tomorrow: { code: "WAITING", games: [] }
-        };
+    today: {
+        code: "ZBUW11",
+        games: [
+            {
+                teams: "Arsenal vs Chelsea",
+                pred: "Over 2.5",
+                res: "Pending"
+            },
+            {
+                teams: "Barcelona vs Real Madrid",
+                pred: "BTTS",
+                res: "Pending"
+            }
+        ]
+    },
+
+    yesterday: {
+        code: "EXPIRED",
+        games: []
+    },
+
+    tomorrow: {
+        code: "WAITING",
+        games: []
+    }
+};
 
         function openModal() { document.getElementById('vipModal').style.display = 'flex'; }
         function closeModal() { document.getElementById('vipModal').style.display = 'none'; }
