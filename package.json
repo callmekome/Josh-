@@ -1,0 +1,14 @@
+{
+  "name": "vip-odds",
+  "version": "1.0.0",
+  "description": "VIP ODDS - Betting & Predictions",
+  "scripts": {
+    "build": "echo 'Static site - no build required'"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@vercel/analytics": "^1.1.1"
+  }
+}
